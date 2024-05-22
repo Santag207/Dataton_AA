@@ -34,51 +34,29 @@ def run_etapa1():
     empleados = workers['documento'].unique()
     horarios = {empleado: [] for empleado in empleados}
 
-     # Algoritmo de asignación
+    # Algoritmo de asignación
     def asignar_horarios(demanda, empleados):
         capacidad_actual = np.zeros(len(demanda))
-
+        
         for i, row in demanda.iterrows():
             demanda_actual = row['demanda']
-            empleados_disponibles = [empleado for empleado in empleados if len(horarios[empleado]) < jornada_laboral]
-
-            # Primero asignamos empleados hasta cubrir la demanda
-            while capacidad_actual[i] < demanda_actual and empleados_disponibles:
-                empleado = empleados_disponibles.pop(0)
-                horarios[empleado].append('Trabaja')
-                capacidad_actual[i] += 1
-
-            # Luego asignamos empleados para mantener mínimo uno trabajando
-            if capacidad_actual[i] == 0 and empleados_disponibles:
-                empleado = empleados_disponibles.pop(0)
-                horarios[empleado].append('Trabaja')
-                capacidad_actual[i] += 1
-
-            # Asignamos las pausas activas y almuerzos
             for empleado in empleados:
                 if len(horarios[empleado]) < jornada_laboral:
-                    if len(horarios[empleado]) >= minimo_trabajo_continuo:
-                        if len(horarios[empleado]) >= maximo_trabajo_continuo or (franja_almuerzo_min <= i <= franja_almuerzo_max and 'Almuerza' not in horarios[empleado]):
-                            if 'Almuerza' not in horarios[empleado] and franja_almuerzo_min <= i <= franja_almuerzo_max:
-                                for _ in range(tiempo_almuerzo):
-                                    if len(horarios[empleado]) < jornada_laboral:
-                                        horarios[empleado].append('Almuerza')
+                    if capacidad_actual[i] < demanda_actual:
+                        horarios[empleado].append('Trabaja')
+                        capacidad_actual[i] += 1
+                    elif capacidad_actual[i] == demanda_actual:
+                        if len(horarios[empleado]) >= minimo_trabajo_continuo:
+                            if len(horarios[empleado]) >= maximo_trabajo_continuo or (franja_almuerzo_min <= i <= franja_almuerzo_max and 'Almuerza' not in horarios[empleado]):
+                                horarios[empleado].append('Almuerza' if franja_almuerzo_min <= i <= franja_almuerzo_max else 'Pausa Activa')
                             else:
-                                horarios[empleado].append('Pausa Activa')
+                                horarios[empleado].append('Trabaja')
                         else:
                             horarios[empleado].append('Trabaja')
                     else:
                         horarios[empleado].append('Trabaja')
                 else:
                     horarios[empleado].append('Nada')
-
-        # Verificación y corrección final
-        for i in range(len(demanda)):
-            if sum(1 for horario in horarios.values() if horario[i] == 'Trabaja') == 0:
-                for empleado in empleados:
-                    if horarios[empleado][i] == 'Nada':
-                        horarios[empleado][i] = 'Trabaja'
-                        break
 
     asignar_horarios(demanda, empleados)
 
