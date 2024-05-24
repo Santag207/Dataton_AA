@@ -33,12 +33,45 @@ El proyecto utiliza las siguientes bibliotecas:
 - `pandas`: Para la manipulación y análisis de datos.
 - `numpy`: Para operaciones numéricas y manejo de matrices.
 - `matplotlib`: Para la generación de gráficos y visualización de datos.
+- `openpyxl`: Para la manipulación de archivos Excel y la adición de gráficos en el Excel.
 
 ## Estructura del Código
-- **Carga de Datos**: Carga los datos de demanda y empleados desde archivos Excel.
-- **Análisis de Datos**: Proporciona una descripción básica de los datos cargados.
-- **Optimización de Horarios**: Algoritmo que asigna horarios a los empleados considerando las restricciones mencionadas.
-- **Visualización**: Genera gráficos para validar la optimización realizada.
-- **Generación de Resultados**: Guarda los horarios optimizados en un archivo Excel.
 
-Este proyecto es una solución integral que combina técnicas de optimización y visualización de datos para resolver un problema complejo de programación horaria, cumpliendo con diversas restricciones y requisitos específicos.
+### Etapa 1
+- **Archivo:** `etapa1.py`
+- **Función Principal:** `asignar_horarios_etapa1`
+- **Descripción:**
+  La función `asignar_horarios_etapa1` asigna horarios a los empleados teniendo en cuenta las restricciones de tiempo de trabajo continuo y pausas. 
+  1. Inicializa un diccionario `horarios` para almacenar el estado de cada empleado en cada franja horaria.
+  2. Itera a través de cada empleado y franja horaria, asignando `'Trabaja'`, `'Almuerza'` o `'Pausa Activa'` según las restricciones.
+  3. Asegura que cada franja horaria tenga al menos un empleado trabajando.
+- **Salida:** Un diccionario con los horarios asignados a cada empleado.
+
+### Etapa 2
+- **Archivo:** `etapa2.py`
+- **Función Principal:** `asignar_horarios_etapa2`
+- **Descripción:**
+  La función `asignar_horarios_etapa2` asigna horarios a los empleados considerando diferentes tipos de jornadas laborales (completa, medio tiempo, sábado).
+  1. Inicializa un diccionario `horarios` para almacenar el estado de cada empleado en cada franja horaria.
+  2. Itera a través de cada día y franja horaria, asignando `'Trabaja'`, `'Almuerza'` o `'Pausa Activa'` según las restricciones.
+  3. Asegura que cada franja horaria tenga al menos un empleado trabajando.
+- **Salida:** Un diccionario con los horarios asignados a cada empleado.
+
+### Ejecución Completa
+- **Archivo:** `completo.py`
+- **Función Principal:** `run_completo`
+- **Descripción:**
+  La función `run_completo` ejecuta las etapas 1 y 2, cargando los datos necesarios, llamando a las funciones de asignación de horarios, y generando los resultados.
+  1. Carga los datos de demanda y empleados desde los archivos Excel.
+  2. Ejecuta la función `asignar_horarios_etapa1` para la Etapa 1.
+  3. Ejecuta la función `asignar_horarios_etapa2` para la Etapa 2.
+  4. Genera gráficos de visualización y guarda los resultados en archivos Excel.
+
+## Cómo Ejecutar el Proyecto
+
+1. **Instalar Dependencias:**
+   ```bash
+   pip install pandas numpy matplotlib openpyxl
+2. **Compilarlo desde CMD**
+  '''python completo.py
+3. Verificar resultados y solucion realizada para el reto
