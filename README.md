@@ -73,5 +73,6 @@ El proyecto utiliza las siguientes bibliotecas:
    ```bash
    pip install pandas numpy matplotlib openpyxl
 2. **Compilarlo desde CMD**
-  '''python completo.py
+    ```bash
+   python completo.py
 3. Verificar resultados y solucion realizada para el reto
